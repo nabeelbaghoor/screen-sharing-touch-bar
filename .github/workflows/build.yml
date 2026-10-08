@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and package (universal)
+        run: ./package.sh
+
+      - name: Check the binary is universal
+        run: lipo -archs build/ScreenSharingTouchBar.app/Contents/MacOS/ScreenSharingTouchBar | grep -q "x86_64 arm64"
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ScreenSharingTouchBar
+          path: dist/*
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v v="$VERSION" 'index($0, "## [" v "]") == 1 {f=1; next} /^## /{f=0} f' CHANGELOG.md > notes.md
+          cat >> notes.md <<'EOF'
+
+          ### Install
+          Download the `.dmg`, drag the app to Applications, then follow the [install steps](https://github.com/nabeelbaghoor/screen-sharing-touch-bar#install) (Open Anyway, allow Accessibility, relaunch).
+          EOF
+          gh release create "$GITHUB_REF_NAME" dist/* --title "Screen Sharing Touch Bar $VERSION" --notes-file notes.md

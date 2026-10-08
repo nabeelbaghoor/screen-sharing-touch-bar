@@ -1,0 +1,16 @@
+name: Feature request or missing toolbar item
+description: Suggest an improvement, or report a toolbar item that shows a dashed icon
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+    validations:
+      required: true
+  - type: input
+    id: item
+    attributes:
+      label: Toolbar item identifier (if it's a missing item)
+      description: From `defaults read com.apple.ScreenSharing | grep -A30 "TB Item Identifiers"`
+      placeholder: "MultiDisplay"

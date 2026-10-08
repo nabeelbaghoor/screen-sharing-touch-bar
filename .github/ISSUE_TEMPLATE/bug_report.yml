@@ -1,0 +1,44 @@
+name: Bug report
+description: Something doesn't work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Shown in the menu bar icon's menu.
+      placeholder: "1.1.0"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "macOS 15.1"
+    validations:
+      required: true
+  - type: input
+    id: mac
+    attributes:
+      label: Mac model
+      placeholder: "MacBook Pro 13-inch, M1, 2020"
+    validations:
+      required: true
+  - type: textarea
+    id: toolbar
+    attributes:
+      label: Toolbar items (optional)
+      description: Output of `defaults read com.apple.ScreenSharing | grep -A30 "TB Item Identifiers"`
+      render: text
+  - type: textarea
+    id: touchbar
+    attributes:
+      label: Touch Bar screenshot (optional)
+      description: Run `screencapture -b touchbar.png` while Screen Sharing is in front and attach the file.
