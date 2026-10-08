@@ -38,7 +38,7 @@ Supported toolbar items: Control/Observe, Dynamic Resolution, HDR, Launchpad, Mi
 ## Install
 
 1. Download the latest `.dmg` from [Releases](https://github.com/nabeelbaghoor/screen-sharing-touch-bar/releases/latest), open it, and drag **ScreenSharingTouchBar** into **Applications**.
-2. Open the app. It isn't notarized by Apple, so macOS blocks the first launch. Open **System Settings > Privacy & Security**, scroll down and click **Open Anyway**. (On macOS 12 to 14 you can also right-click the app and choose **Open**.)
+2. Open the app and confirm the usual prompt for apps downloaded from the internet. Releases are signed with a Developer ID and notarized by Apple.
 3. Allow it in **System Settings > Privacy & Security > Accessibility**, then **quit the app from its menu bar icon and open it again**. The app picks up the permission when it relaunches.
 4. Optional: menu bar icon > **Open at Login**.
 
@@ -59,7 +59,7 @@ The Accessibility permission is used only to read Screen Sharing's menu titles a
 - **Displays** is a toolbar-only control with no menu command, so it shows dimmed for now.
 - Menu commands are matched by their **English** titles, so other system languages aren't supported yet. Contributions are welcome.
 - The Touch Bar presentation uses an undocumented Apple API (the same one other Touch Bar tools use), so a future macOS update could change it.
-- Builds are ad-hoc signed, not notarized, and each new version needs the Accessibility permission granted again.
+- Updating from 1.1.0 or earlier (ad-hoc signed) needs the Accessibility permission granted again: see Troubleshooting below. Builds from source are ad-hoc signed unless you run `make_signing_identity.sh`.
 
 ## Troubleshooting
 
@@ -86,6 +86,7 @@ cd screen-sharing-touch-bar
 | `Info.plist` | Bundle metadata and version |
 | `build.sh`, `package.sh` | Build, install and packaging scripts |
 | `make_signing_identity.sh` | Creates a local code-signing certificate so rebuilds keep their permission |
+| `release.sh` | Maintainer release: Developer ID signing, notarization and the GitHub release |
 
 ## Contributing
 

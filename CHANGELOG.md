@@ -4,9 +4,16 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-10-08
+
 ### Added
 - `make_signing_identity.sh` creates a local code-signing certificate; `build.sh` signs with it when present, so local rebuilds keep their Accessibility permission (falls back to ad-hoc signing otherwise).
 - The app logs at launch whether Accessibility is allowed, to help troubleshooting.
+- `release.sh` signs a release with a Developer ID, notarizes and staples the app and DMG, and publishes it.
+
+### Changed
+- Releases are signed with a Developer ID and notarized by Apple, so the first launch no longer needs Open Anyway.
+- CI builds every push but no longer publishes releases.
 
 ## [1.1.0] - 2026-10-08
 
@@ -28,5 +35,6 @@ All notable changes to this project are documented here. The format follows [Kee
 - First version: Control, Dynamic, HDR, Launchpad, Mission Control and Desktop on the Touch Bar while Screen Sharing is in front, with live on/off state.
 - Menu bar icon with Accessibility status, Open at Login and Quit.
 
-[Unreleased]: https://github.com/nabeelbaghoor/screen-sharing-touch-bar/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/nabeelbaghoor/screen-sharing-touch-bar/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/nabeelbaghoor/screen-sharing-touch-bar/releases/tag/v1.1.1
 [1.1.0]: https://github.com/nabeelbaghoor/screen-sharing-touch-bar/releases/tag/v1.1.0

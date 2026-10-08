@@ -25,11 +25,12 @@ cp Info.plist "$APP/Contents/Info.plist"
 
 # Sign with the local identity from make_signing_identity.sh when it exists, so macOS keeps the
 # Accessibility permission across rebuilds; otherwise fall back to ad-hoc signing (CI, new machines).
+# release.sh passes SIGN_HASH (Developer ID) and SIGN_OPTS (hardened runtime + timestamp) for notarized builds.
 SIGN_NAME="${SIGN_IDENTITY:-ScreenSharingTouchBar Local Signing}"
-SIGN_HASH=$(security find-identity -p codesigning 2>/dev/null | awk -v n="\"$SIGN_NAME\"" 'index($0, n) {print $2; exit}')
+SIGN_HASH="${SIGN_HASH:-$(security find-identity -p codesigning 2>/dev/null | awk -v n="\"$SIGN_NAME\"" 'index($0, n) {print $2; exit}')}"
 if [[ -n "$SIGN_HASH" ]]; then
-  codesign --force --sign "$SIGN_HASH" "$APP"
-  echo "Signed with \"$SIGN_NAME\""
+  codesign --force ${=SIGN_OPTS} --sign "$SIGN_HASH" "$APP"
+  echo "Signed with $(codesign -dvv "$APP" 2>&1 | awk -F= '/^Authority=/{print $2; exit}')"
 else
   codesign --force --sign - "$APP"
   echo "Signed ad-hoc (run ./make_signing_identity.sh once to keep permissions across rebuilds)"
