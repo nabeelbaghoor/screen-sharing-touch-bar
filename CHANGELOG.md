@@ -4,6 +4,10 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+### Added
+- `make_signing_identity.sh` creates a local code-signing certificate; `build.sh` signs with it when present, so local rebuilds keep their Accessibility permission (falls back to ad-hoc signing otherwise).
+- The app logs at launch whether Accessibility is allowed, to help troubleshooting.
+
 ## [1.1.0] - 2026-10-08
 
 ### Added

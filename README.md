@@ -74,6 +74,7 @@ Requires Xcode or the Xcode Command Line Tools.
 ```bash
 git clone https://github.com/nabeelbaghoor/screen-sharing-touch-bar.git
 cd screen-sharing-touch-bar
+./make_signing_identity.sh   # optional, once: keeps the Accessibility permission across rebuilds
 ./build.sh       # universal build, installs to ~/Applications
 ./package.sh     # builds dist/ScreenSharingTouchBar-<version>.dmg and .zip
 ```
@@ -84,6 +85,7 @@ cd screen-sharing-touch-bar
 | `make_icon.m` | Draws the app icon at build time |
 | `Info.plist` | Bundle metadata and version |
 | `build.sh`, `package.sh` | Build, install and packaging scripts |
+| `make_signing_identity.sh` | Creates a local code-signing certificate so rebuilds keep their permission |
 
 ## Contributing
 

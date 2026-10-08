@@ -18,7 +18,7 @@ defaults read com.apple.ScreenSharing | grep -A30 "TB Item Identifiers"
 ./package.sh          # DMG and zip in dist/
 ```
 
-Each build has a new ad-hoc signature, so macOS treats it as a new app: remove the old entry from Privacy & Security > Accessibility, relaunch, and allow it again.
+**Keep the Accessibility permission across rebuilds:** run `./make_signing_identity.sh` once. It creates a self-signed code-signing certificate in your login keychain, and `build.sh` then signs every build with it, so macOS treats each rebuild as the same app. Without it, builds are signed ad-hoc and each one needs the permission granted again (remove the old entry in Privacy & Security > Accessibility, relaunch, allow). Set `SIGN_IDENTITY` to use a different certificate name.
 
 ## Testing a change
 

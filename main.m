@@ -183,7 +183,8 @@ static id FirstMenuItem(NSDictionary *menu, NSArray<NSString *> *titles, NSStrin
     [self setupStatusItem];
 
     NSDictionary *opts = @{(__bridge id)kAXTrustedCheckOptionPrompt: @YES};
-    AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)opts);
+    BOOL trusted = AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)opts);
+    NSLog(@"Screen Sharing Touch Bar started, Accessibility allowed: %@", trusted ? @"yes" : @"no");
 
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
                                                            selector:@selector(frontAppChanged:)

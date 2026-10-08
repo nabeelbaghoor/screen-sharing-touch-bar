@@ -22,7 +22,18 @@ clang -fobjc-arc -O2 -Wall -arch arm64 -arch x86_64 -mmacosx-version-min=12.0 \
   -framework Cocoa -framework ApplicationServices -framework ServiceManagement \
   main.m -o "$APP/Contents/MacOS/ScreenSharingTouchBar"
 cp Info.plist "$APP/Contents/Info.plist"
-codesign --force --sign - "$APP"
+
+# Sign with the local identity from make_signing_identity.sh when it exists, so macOS keeps the
+# Accessibility permission across rebuilds; otherwise fall back to ad-hoc signing (CI, new machines).
+SIGN_NAME="${SIGN_IDENTITY:-ScreenSharingTouchBar Local Signing}"
+SIGN_HASH=$(security find-identity -p codesigning 2>/dev/null | awk -v n="\"$SIGN_NAME\"" 'index($0, n) {print $2; exit}')
+if [[ -n "$SIGN_HASH" ]]; then
+  codesign --force --sign "$SIGN_HASH" "$APP"
+  echo "Signed with \"$SIGN_NAME\""
+else
+  codesign --force --sign - "$APP"
+  echo "Signed ad-hoc (run ./make_signing_identity.sh once to keep permissions across rebuilds)"
+fi
 rm -rf build/tmp
 echo "Built: $APP"
 
